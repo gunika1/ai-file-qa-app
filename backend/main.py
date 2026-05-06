@@ -10,14 +10,7 @@ load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-available_models = [
-    m.name for m in genai.list_models()
-    if "generateContent" in m.supported_generation_methods
-]
-
-print("Available Gemini models:", available_models)
-
-model = genai.GenerativeModel(available_models[0])
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 app = FastAPI()
 
@@ -82,7 +75,6 @@ Give a clear summary of this PDF.
 PDF Content:
 {pdf_text[:12000]}
 """
-
         response = model.generate_content(prompt)
         return {"summary": response.text}
 
@@ -111,7 +103,6 @@ User Question:
 
 Give a clear and helpful answer.
 """
-
         response = model.generate_content(prompt)
         return {"answer": response.text}
 

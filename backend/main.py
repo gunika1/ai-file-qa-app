@@ -1,16 +1,15 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from PyPDF2 import PdfReader
-import google.generativeai as genai
 from dotenv import load_dotenv
+import requests
 import os
 import uvicorn
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-model = genai.GenerativeModel("gemini-1.5-flash")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = "gemini-2.5-flash"
 
 app = FastAPI()
 
@@ -27,6 +26,31 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 pdf_text = ""
 uploaded_filename = ""
+
+
+def ask_gemini(prompt):
+    url = (
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
+    )
+
+    payload = {
+        "contents": [
+            {
+                "parts": [
+                    {"text": prompt}
+                ]
+            }
+        ]
+    }
+
+    response = requests.post(url, json=payload, timeout=60)
+    data = response.json()
+
+    if response.status_code != 200:
+        return f"Gemini API Error: {data}"
+
+    return data["candidates"][0]["content"]["parts"][0]["text"]
 
 
 @app.get("/")
@@ -63,34 +87,26 @@ async def upload_file(file: UploadFile = File(...)):
 
 @app.post("/summary")
 async def generate_summary():
-    global pdf_text
-
     if not pdf_text:
         return {"summary": "Please upload a PDF first."}
 
-    try:
-        prompt = f"""
+    prompt = f"""
 Give a clear summary of this PDF.
 
 PDF Content:
 {pdf_text[:12000]}
 """
-        response = model.generate_content(prompt)
-        return {"summary": response.text}
 
-    except Exception as e:
-        return {"summary": f"Error: {str(e)}"}
+    answer = ask_gemini(prompt)
+    return {"summary": answer}
 
 
 @app.post("/chat")
 async def chat(question: str = Form(...)):
-    global pdf_text
-
     if not pdf_text:
         return {"answer": "Please upload a PDF first."}
 
-    try:
-        prompt = f"""
+    prompt = f"""
 You are an AI assistant.
 
 Answer the user's question using ONLY the uploaded PDF content.
@@ -103,11 +119,9 @@ User Question:
 
 Give a clear and helpful answer.
 """
-        response = model.generate_content(prompt)
-        return {"answer": response.text}
 
-    except Exception as e:
-        return {"answer": f"Error: {str(e)}"}
+    answer = ask_gemini(prompt)
+    return {"answer": answer}
 
 
 if __name__ == "__main__":

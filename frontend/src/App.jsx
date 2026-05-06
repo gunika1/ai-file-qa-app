@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://ai-file-qa-app.onrender.com";
 
 export default function App() {
   const [file, setFile] = useState(null);
@@ -38,7 +38,7 @@ export default function App() {
       const res = await axios.post(`${API_URL}/summary`);
       setSummary(res.data.summary);
     } catch {
-      alert("Summary failed");
+      alert("Summary failed.");
     } finally {
       setLoadingSummary(false);
     }
@@ -114,7 +114,7 @@ export default function App() {
               <button
                 onClick={handleUpload}
                 disabled={loadingUpload}
-                className="mt-5 w-full rounded-full bg-[#3A3330] px-6 py-3 font-semibold text-white hover:bg-[#C7A9A0]"
+                className="mt-5 w-full rounded-full bg-[#3A3330] px-6 py-3 font-semibold text-white hover:bg-[#C7A9A0] disabled:opacity-60"
               >
                 {loadingUpload ? "Uploading..." : "Upload File"}
               </button>
@@ -135,7 +135,7 @@ export default function App() {
               <button
                 onClick={handleSummary}
                 disabled={loadingSummary}
-                className="mt-5 w-full rounded-full bg-[#C7A9A0] px-6 py-3 font-semibold text-white hover:bg-[#3A3330]"
+                className="mt-5 w-full rounded-full bg-[#C7A9A0] px-6 py-3 font-semibold text-white hover:bg-[#3A3330] disabled:opacity-60"
               >
                 {loadingSummary ? "Generating..." : "Generate Summary"}
               </button>
@@ -143,7 +143,7 @@ export default function App() {
 
             <div className="rounded-[2rem] bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-2xl font-bold">Summary</h2>
-              <div className="min-h-[160px] rounded-2xl bg-[#FAF7F5] p-4 text-sm leading-6 text-[#3A3330]/75">
+              <div className="min-h-[160px] rounded-2xl bg-[#FAF7F5] p-4 text-sm leading-6 text-[#3A3330]/75 whitespace-pre-wrap">
                 {summary || "Summary will appear here."}
               </div>
             </div>
@@ -178,7 +178,7 @@ export default function App() {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-3xl px-5 py-3 text-sm leading-6 ${
+                    className={`max-w-[80%] whitespace-pre-wrap rounded-3xl px-5 py-3 text-sm leading-6 ${
                       msg.role === "user"
                         ? "bg-[#3A3330] text-white"
                         : "bg-[#FAF7F5] text-[#3A3330]"
@@ -206,7 +206,8 @@ export default function App() {
 
                 <button
                   onClick={handleChat}
-                  className="h-12 rounded-full bg-[#3A3330] px-6 font-semibold text-white hover:bg-[#C7A9A0]"
+                  disabled={loadingChat}
+                  className="h-12 rounded-full bg-[#3A3330] px-6 font-semibold text-white hover:bg-[#C7A9A0] disabled:opacity-60"
                 >
                   Send
                 </button>

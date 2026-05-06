@@ -4,6 +4,7 @@ from PyPDF2 import PdfReader
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+import uvicorn
 
 load_dotenv()
 
@@ -83,7 +84,6 @@ PDF Content:
 """
 
         response = model.generate_content(prompt)
-
         return {"summary": response.text}
 
     except Exception as e:
@@ -113,8 +113,12 @@ Give a clear and helpful answer.
 """
 
         response = model.generate_content(prompt)
-
         return {"answer": response.text}
 
     except Exception as e:
         return {"answer": f"Error: {str(e)}"}
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

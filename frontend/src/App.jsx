@@ -69,31 +69,31 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F5] px-4 py-6 md:px-10">
+    <div className="min-h-screen bg-[#FAF7F5] px-3 py-4 text-[#3A3330] sm:px-5 md:px-10 md:py-6">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-8 rounded-[2rem] bg-[#E8DCD5] px-6 py-8 shadow-sm md:px-10">
-          <p className="mb-3 inline-block rounded-full bg-white/60 px-4 py-2 text-sm font-semibold">
+        <header className="mb-5 rounded-3xl bg-[#E8DCD5] px-5 py-7 shadow-sm sm:mb-8 sm:px-7 md:rounded-[2rem] md:px-10 md:py-9">
+          <p className="mb-3 inline-block rounded-full bg-white/60 px-4 py-2 text-xs font-semibold sm:text-sm">
             ✨ AI Powered Document Q&A
           </p>
 
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+          <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl md:text-6xl">
             Ask questions from your files instantly.
           </h1>
 
-          <p className="mt-4 max-w-2xl text-[#3A3330]/70 md:text-lg">
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[#3A3330]/70 sm:text-base md:text-lg">
             Upload a PDF, generate summaries, and chat with your document using AI.
           </p>
         </header>
 
-        <main className="grid gap-6 lg:grid-cols-[420px_1fr]">
-          <section className="space-y-6">
-            <div className="rounded-[2rem] bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-2xl font-bold">Upload File</h2>
+        <main className="grid gap-5 lg:grid-cols-[390px_1fr] xl:grid-cols-[420px_1fr]">
+          <section className="space-y-5">
+            <div className="rounded-3xl bg-white p-5 shadow-sm sm:p-6 md:rounded-[2rem]">
+              <h2 className="mb-4 text-xl font-bold sm:text-2xl">Upload File</h2>
 
-              <label className="flex cursor-pointer flex-col items-center justify-center rounded-[1.5rem] border-2 border-dashed border-[#C7A9A0] bg-[#FAF7F5] px-5 py-10 text-center hover:bg-[#E8DCD5]/60">
+              <label className="flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[#C7A9A0] bg-[#FAF7F5] px-4 py-8 text-center transition hover:bg-[#E8DCD5]/60 sm:py-10">
                 <span className="text-4xl">📄</span>
                 <span className="mt-3 font-semibold">Choose PDF File</span>
-                <span className="mt-1 text-sm text-[#3A3330]/60">
+                <span className="mt-1 text-xs text-[#3A3330]/60 sm:text-sm">
                   Click here to upload your document
                 </span>
 
@@ -106,7 +106,7 @@ export default function App() {
               </label>
 
               {file && (
-                <div className="mt-4 rounded-2xl bg-[#E8DCD5]/70 p-4 text-sm">
+                <div className="mt-4 break-words rounded-2xl bg-[#E8DCD5]/70 p-4 text-xs sm:text-sm">
                   Selected: <b>{file.name}</b>
                 </div>
               )}
@@ -114,56 +114,58 @@ export default function App() {
               <button
                 onClick={handleUpload}
                 disabled={loadingUpload}
-                className="mt-5 w-full rounded-full bg-[#3A3330] px-6 py-3 font-semibold text-white hover:bg-[#C7A9A0] disabled:opacity-60"
+                className="mt-5 w-full rounded-full bg-[#3A3330] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#C7A9A0] disabled:opacity-60 sm:text-base"
               >
                 {loadingUpload ? "Uploading..." : "Upload File"}
               </button>
             </div>
 
-            <div className="rounded-[2rem] bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-2xl font-bold">Uploaded File</h2>
+            <div className="rounded-3xl bg-white p-5 shadow-sm sm:p-6 md:rounded-[2rem]">
+              <h2 className="mb-4 text-xl font-bold sm:text-2xl">Uploaded File</h2>
 
               {uploadedFile ? (
                 <div className="rounded-2xl bg-[#BFD3C1]/50 p-4">
-                  <p className="text-sm text-[#3A3330]/70">Current file</p>
-                  <p className="font-bold">{uploadedFile}</p>
+                  <p className="text-xs text-[#3A3330]/70 sm:text-sm">Current file</p>
+                  <p className="break-words text-sm font-bold sm:text-base">
+                    {uploadedFile}
+                  </p>
                 </div>
               ) : (
-                <p className="text-[#3A3330]/60">No file uploaded yet.</p>
+                <p className="text-sm text-[#3A3330]/60">No file uploaded yet.</p>
               )}
 
               <button
                 onClick={handleSummary}
                 disabled={loadingSummary}
-                className="mt-5 w-full rounded-full bg-[#C7A9A0] px-6 py-3 font-semibold text-white hover:bg-[#3A3330] disabled:opacity-60"
+                className="mt-5 w-full rounded-full bg-[#C7A9A0] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3A3330] disabled:opacity-60 sm:text-base"
               >
                 {loadingSummary ? "Generating..." : "Generate Summary"}
               </button>
             </div>
 
-            <div className="rounded-[2rem] bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-2xl font-bold">Summary</h2>
-              <div className="min-h-[160px] rounded-2xl bg-[#FAF7F5] p-4 text-sm leading-6 text-[#3A3330]/75 whitespace-pre-wrap">
+            <div className="rounded-3xl bg-white p-5 shadow-sm sm:p-6 md:rounded-[2rem]">
+              <h2 className="mb-4 text-xl font-bold sm:text-2xl">Summary</h2>
+              <div className="max-h-[280px] min-h-[140px] overflow-y-auto whitespace-pre-wrap rounded-2xl bg-[#FAF7F5] p-4 text-xs leading-6 text-[#3A3330]/75 sm:text-sm md:max-h-[340px]">
                 {summary || "Summary will appear here."}
               </div>
             </div>
           </section>
 
-          <section className="flex min-h-[700px] flex-col rounded-[2rem] bg-white shadow-sm">
-            <div className="border-b border-[#E8DCD5] p-6">
-              <h2 className="text-2xl font-bold">🤖 AI Chatbot</h2>
-              <p className="mt-1 text-sm text-[#3A3330]/60">
+          <section className="flex h-[75vh] min-h-[560px] flex-col rounded-3xl bg-white shadow-sm sm:min-h-[650px] md:rounded-[2rem] lg:h-auto lg:min-h-[760px]">
+            <div className="border-b border-[#E8DCD5] p-5 sm:p-6">
+              <h2 className="text-xl font-bold sm:text-2xl">🤖 AI Chatbot</h2>
+              <p className="mt-1 text-xs text-[#3A3330]/60 sm:text-sm">
                 Ask questions from uploaded PDF
               </p>
             </div>
 
-            <div className="flex-1 space-y-4 overflow-y-auto p-6">
+            <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
               {messages.length === 0 && (
                 <div className="flex h-full items-center justify-center text-center">
                   <div>
                     <div className="text-5xl">🤖</div>
-                    <h3 className="mt-4 text-xl font-bold">Start asking</h3>
-                    <p className="mt-2 text-[#3A3330]/60">
+                    <h3 className="mt-4 text-lg font-bold sm:text-xl">Start asking</h3>
+                    <p className="mt-2 px-4 text-sm text-[#3A3330]/60">
                       Upload your PDF and ask anything.
                     </p>
                   </div>
@@ -178,7 +180,7 @@ export default function App() {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] whitespace-pre-wrap rounded-3xl px-5 py-3 text-sm leading-6 ${
+                    className={`max-w-[92%] whitespace-pre-wrap break-words rounded-3xl px-4 py-3 text-xs leading-6 sm:max-w-[82%] sm:px-5 sm:text-sm ${
                       msg.role === "user"
                         ? "bg-[#3A3330] text-white"
                         : "bg-[#FAF7F5] text-[#3A3330]"
@@ -190,24 +192,26 @@ export default function App() {
               ))}
 
               {loadingChat && (
-                <p className="text-sm text-[#3A3330]/60">AI is thinking...</p>
+                <p className="text-xs text-[#3A3330]/60 sm:text-sm">
+                  AI is thinking...
+                </p>
               )}
             </div>
 
-            <div className="border-t border-[#E8DCD5] p-5">
-              <div className="flex gap-3 rounded-full bg-[#FAF7F5] p-2">
+            <div className="border-t border-[#E8DCD5] p-3 sm:p-5">
+              <div className="flex items-center gap-2 rounded-3xl bg-[#FAF7F5] p-2 sm:rounded-full sm:gap-3">
                 <input
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleChat()}
                   placeholder="Ask something..."
-                  className="flex-1 bg-transparent px-4 outline-none"
+                  className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none sm:px-4"
                 />
 
                 <button
                   onClick={handleChat}
                   disabled={loadingChat}
-                  className="h-12 rounded-full bg-[#3A3330] px-6 font-semibold text-white hover:bg-[#C7A9A0] disabled:opacity-60"
+                  className="shrink-0 rounded-full bg-[#3A3330] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#C7A9A0] disabled:opacity-60 sm:h-12 sm:px-6"
                 >
                   Send
                 </button>
